@@ -1,0 +1,111 @@
+body {
+  background: url(./img/fundo_carros.avif);
+  background-position: center;    /* centraliza a imagem */
+}
+
+.container {
+  text-align: center;
+  padding: 2rem;
+  font-family: sans-serif;
+  color: #ffffff;
+}
+
+.pista {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+  border-top: 4px dashed #ccc;
+  margin-top: 2rem;
+  min-height: 200px;
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.carro-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 80px;
+  transition: transform 0.3s;
+}
+
+.nickname {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+.carro {
+  font-size: 2rem;
+}
+
+.tickets {
+  font-size: 1rem;
+  color: #f4f2ff;
+  .borda-texto-sombra {
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000; /* Cria um contorno em volta do texto */
+  color: white; /* Cor do texto */
+}
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .pista {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .carro {
+    font-size: 1.5rem;
+  }
+
+  .nickname {
+    font-size: 0.9rem;
+  }
+
+  .tickets {
+    font-size: 1rem;
+  }
+}
+
+.ranking-posicao {
+  font-size: 1.2rem;
+  color: #ffffff;
+  margin-bottom: 0.2rem;
+}
+
+.ouro .ranking-posicao {
+  color: #FFD700; /* amarelo ouro */
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.prata .ranking-posicao {
+  color: #C0C0C0; /* prata */
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.bronze .ranking-posicao {
+  color: #CD7F32; /* bronze */
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.container-ticket {
+  display: flex;
+  flex-direction: row;
+}
+
+.ticket2 {
+  -webkit-text-stroke-width: 2px; /* Largura da borda */
+  -webkit-text-stroke-color: black; /* Cor da borda */
+}
