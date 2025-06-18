@@ -7,7 +7,7 @@ function App() {
 
   useEffect(() => {
     const fetchRanking = () => {
-      axios.get('http://localhost:5000/api/ranking')
+      axios.get('https://back-end-ranking.onrender.com/api/ranking')
         .then(response => {
           const jogadoresFiltrados = response.data.filter(jogador =>
             jogador.nickname &&  // nickname não pode estar vazio
