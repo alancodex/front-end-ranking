@@ -4,6 +4,8 @@ import axios from 'axios'
 
 // Importação das imagens
 import impala from './img/impala.png'
+import palio from './img/palio-verde.png'
+
 import defaultCar from './img/default.png'
 
 function App() {
@@ -12,11 +14,13 @@ function App() {
 
   const alturaPorCarro = {
   [impala]: 50,
+  [palio]: 50,
   [defaultCar]: 50,
 }
 
   const larguraPorCarro = {
-  [impala]: 80,
+  [impala]: 70,
+  [palio]: 70,
   [defaultCar]: 60,
 }
 
@@ -43,6 +47,7 @@ function App() {
   const carros = {
     'Alan': impala,
     'Leo Rosa': impala,
+    'Alesson': palio,
     // outros nomes...
   }
 
