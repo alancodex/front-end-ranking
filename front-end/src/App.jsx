@@ -21,7 +21,7 @@ function App() {
   const larguraPorCarro = {
   [impala]: 70,
   [palio]: 70,
-  [defaultCar]: 60,
+  [defaultCar]: 70,
 }
 
 
