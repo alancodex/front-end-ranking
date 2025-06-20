@@ -5,6 +5,7 @@ import axios from 'axios'
 // Importação das imagens
 import impala from './img/impala.png'
 import palio from './img/palio-verde.png'
+import s10 from './img/s10.png'
 
 import defaultCar from './img/default.png'
 
@@ -15,12 +16,14 @@ function App() {
   const alturaPorCarro = {
   [impala]: 50,
   [palio]: 50,
+  [s10]: 50,
   [defaultCar]: 50,
 }
 
   const larguraPorCarro = {
   [impala]: 70,
   [palio]: 70,
+  [s10]: 80,
   [defaultCar]: 70,
 }
 
@@ -48,6 +51,7 @@ function App() {
     'Alan': impala,
     'Leo Rosa': impala,
     'Alesson': palio,
+    'Joao': s10
     // outros nomes...
   }
 
@@ -130,7 +134,8 @@ function App() {
           const titulo = {
             "Whatsapp": "📱 WhatsApp Nível 1",
             "Whatsapp Nivel 2": "⚙️ WhatsApp Nível 2",
-            "Telefônico": "📞 Telefônico"
+            "Telefônico": "📞 Telefônico",
+            "Geral": "📱 WhatsApp Nível 1" && "⚙️ WhatsApp Nível 2" && "📞 Telefônico"
           }[tipo]
 
           const top3 = ranking
