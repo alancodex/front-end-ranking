@@ -6,27 +6,29 @@ import axios from 'axios'
 import impala from './img/impala.png'
 import palio from './img/palio-verde.png'
 import s10 from './img/s10.png'
-
+import mazda from './img/mazda.png'
 import defaultCar from './img/default.png'
+
 
 function App() {
   const [ranking, setRanking] = useState([])
   const [jogadorSelecionado, setJogadorSelecionado] = useState(null)
 
   const alturaPorCarro = {
-  [impala]: 50,
-  [palio]: 50,
-  [s10]: 50,
-  [defaultCar]: 50,
-}
+    [impala]: 50,
+    [palio]: 50,
+    [s10]: 50,
+    [mazda]: 50,
+    [defaultCar]: 50,
+  }
 
   const larguraPorCarro = {
-  [impala]: 70,
-  [palio]: 70,
-  [s10]: 80,
-  [defaultCar]: 70,
-}
-
+    [impala]: 70,
+    [palio]: 70,
+    [mazda]: 70,
+    [s10]: 80,
+    [defaultCar]: 70,
+  }
 
   // Funções de cada jogador
   const funcoes = {
@@ -48,7 +50,7 @@ function App() {
 
   // Carros de cada jogador
   const carros = {
-    'Alan': impala,
+    'Alan': mazda,
     'Leo Rosa': impala,
     'Alesson': palio,
     'Joao': s10
@@ -101,8 +103,10 @@ function App() {
                   src={carros[jogador.nickname] || defaultCar}
                   alt="Carro"
                   className="carro"
-                  style={{ width: `${larguraPorCarro[carros[jogador.nickname] || defaultCar]}px`, 
-                  height: `${alturaPorCarro[carros[jogador.nickname] || defaultCar]}px` }}
+                  style={{
+                    width: `${larguraPorCarro[carros[jogador.nickname] || defaultCar]}px`,
+                    height: `${alturaPorCarro[carros[jogador.nickname] || defaultCar]}px`
+                  }}
                 />
               </div>
               <div className="container-ticket">
@@ -128,14 +132,24 @@ function App() {
         </div>
       )}
 
-      {/* Linha de Pódios por Função */}
+      {/* Linha de Pódios: Geral + por função */}
       <div className="linha-podios">
+        {/* Pódio Geral */}
+        <div className="podio">
+          <h3>🏆 Pódio Geral</h3>
+          {ranking.slice(0, 3).map((jogador, index) => (
+            <div key={jogador.id} className="podio-item">
+              <span>{index + 1}º 🏅</span> {jogador.nickname} ({jogador.pontos})
+            </div>
+          ))}
+        </div>
+
+        {/* Pódios por função */}
         {["Whatsapp", "Whatsapp Nivel 2", "Telefônico"].map(tipo => {
           const titulo = {
             "Whatsapp": "📱 WhatsApp Nível 1",
             "Whatsapp Nivel 2": "⚙️ WhatsApp Nível 2",
-            "Telefônico": "📞 Telefônico",
-            "Geral": "📱 WhatsApp Nível 1" && "⚙️ WhatsApp Nível 2" && "📞 Telefônico"
+            "Telefônico": "📞 Telefônico"
           }[tipo]
 
           const top3 = ranking
@@ -147,9 +161,8 @@ function App() {
             <div key={tipo} className="podio">
               <h3>{titulo}</h3>
               {top3.map((jogador, index) => (
-                <div key={jogador.id} className={"podio-item"} >
+                <div key={jogador.id} className="podio-item">
                   <span>{index + 1}º 🏅</span> {jogador.nickname} ({jogador.pontos})
-
                 </div>
               ))}
             </div>
