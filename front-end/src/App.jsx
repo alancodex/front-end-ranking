@@ -6,7 +6,9 @@ import axios from 'axios'
 import impala from './img/impala.png'
 import palio from './img/palio-verde.png'
 import s10 from './img/s10.png'
+import skyline from './img/skyline.png'
 import mazda from './img/mazda.png'
+import mustang from './img/mustang.png'
 import defaultCar from './img/default.png'
 import loja from './img/loja.png'
 
@@ -18,6 +20,8 @@ function App() {
   const alturaPorCarro = {
     [impala]: 50,
     [palio]: 50,
+    [mustang]: 50,
+    [skyline]: 50,
     [s10]: 50,
     [mazda]: 50,
     [defaultCar]: 50,
@@ -26,7 +30,9 @@ function App() {
   const larguraPorCarro = {
     [impala]: 70,
     [mazda]: 70,
+    [mustang]: 70,
     [palio]: 70,
+    [skyline]: 70,
     [s10]: 80,
     [defaultCar]: 70,
   }
@@ -49,12 +55,23 @@ function App() {
     'Clebson': 'Whatsapp Nivel 2',
   }
 
+  const nomeCarro = {
+    'Alan': 'mazda',
+    'Leo Rosa': 'impala',
+    'Alesson': 'palio',
+    'Joao': 's10',
+    'Vitor': 'skyline',
+    'Karol': 'mustang',
+  }
+
   // Carros de cada jogador
   const carros = {
     'Alan': mazda,
     'Leo Rosa': impala,
     'Alesson': palio,
-    'Joao': s10
+    'Joao': s10,
+    'Vitor': skyline,
+    'Karol': mustang
     // outros nomes...
   }
 
@@ -81,7 +98,7 @@ function App() {
 
   return (
     <div className="container">
-      <button className="botao-loja" onClick={() => setMostrarLoja(true)}><img src={loja} alt="" className='compra'/></button>
+      <button className="botao-loja" onClick={() => setMostrarLoja(true)}><img src={loja} alt="" className='compra' /></button>
 
       <h1>🏁 Ranking dos Colaboradores</h1>
 
@@ -128,6 +145,19 @@ function App() {
             <button onClick={() => setJogadorSelecionado(null)}>✖</button>
             <h2>Informações do Jogador</h2>
             <p><strong>👤Nome:</strong> {jogadorSelecionado.nickname}</p>
+            <p><strong>🚘Carro:</strong> {nomeCarro[jogadorSelecionado.nickname] || "Ferrari"}</p>
+            <div>
+              <img
+                src={carros[jogadorSelecionado.nickname] || defaultCar}
+                alt="Carro"
+                className="carro"
+                style={{
+                  width: `${larguraPorCarro[carros[jogadorSelecionado.nickname] || defaultCar]}px`,
+                  height: `${alturaPorCarro[carros[jogadorSelecionado.nickname] || defaultCar]}px`
+                }}
+              />
+
+            </div>
             <p><strong>🔧Atendimento:</strong> {funcoes[jogadorSelecionado.nickname] || "Não informada"}</p>
             <p><strong>✉️Tickets:</strong> {jogadorSelecionado.tickets}</p>
             <p><strong>📏Quilometragem:</strong> {jogadorSelecionado.tickets} km</p>
@@ -174,20 +204,20 @@ function App() {
         })}
       </div>
       {mostrarLoja && (
-  <div className="telinha-loja">
-    <div className="conteudo-loja">
-  <button className="fechar-loja" onClick={() => setMostrarLoja(false)}>✖</button>
-  <h2>Loja</h2>
-  <div className="itens-loja">
-    <button className="item-loja">🧪 <strong>Nitro</strong> – Quilometragem bônus</button>
-    <button className="item-loja">🔫 <strong>Arma</strong> – Repassa um ticket</button>
-    <button className="item-loja">💥 <strong>Munição</strong> – Tickets que pode repassar</button>
-    <button className="item-loja">🛡️ <strong>Proteção</strong> – Bloqueia ataques</button>
-    <button className="item-loja">🧰 <strong>Pitstop</strong> – Tempo de folga</button>
-  </div>
-</div>
-  </div>
-)}
+        <div className="telinha-loja">
+          <div className="conteudo-loja">
+            <button className="fechar-loja" onClick={() => setMostrarLoja(false)}>✖</button>
+            <h2>Loja</h2>
+            <div className="itens-loja">
+              <button className="item-loja">🧪 <strong>Nitro</strong> – Quilometragem bônus</button>
+              <button className="item-loja">🔫 <strong>Arma</strong> – Repassa um ticket</button>
+              <button className="item-loja">💥 <strong>Munição</strong> – Tickets que pode repassar</button>
+              <button className="item-loja">🛡️ <strong>Proteção</strong> – Bloqueia ataques</button>
+              <button className="item-loja">🧰 <strong>Pitstop</strong> – Tempo de folga</button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
 
