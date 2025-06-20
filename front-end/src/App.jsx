@@ -6,6 +6,7 @@ import axios from 'axios'
 import impala from './img/impala.png'
 import palio from './img/palio-verde.png'
 import s10 from './img/s10.png'
+import delrey from './img/delrey.png'
 import skyline from './img/skyline.png'
 import mazda from './img/mazda.png'
 import mustang from './img/mustang.png'
@@ -19,6 +20,7 @@ function App() {
 
   const alturaPorCarro = {
     [impala]: 50,
+    [delrey]: 50,
     [palio]: 50,
     [mustang]: 50,
     [skyline]: 50,
@@ -31,6 +33,7 @@ function App() {
     [impala]: 70,
     [mazda]: 70,
     [mustang]: 70,
+    [delrey]: 70,
     [palio]: 70,
     [skyline]: 70,
     [s10]: 80,
@@ -62,6 +65,7 @@ function App() {
     'Joao': 's10',
     'Vitor': 'skyline',
     'Karol': 'mustang',
+    'Izabelly': 'delrey',
   }
 
   // Carros de cada jogador
@@ -71,7 +75,8 @@ function App() {
     'Alesson': palio,
     'Joao': s10,
     'Vitor': skyline,
-    'Karol': mustang
+    'Karol': mustang,
+    'Izabelly': delrey,
     // outros nomes...
   }
 
