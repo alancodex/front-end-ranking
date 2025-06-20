@@ -6,26 +6,24 @@ import axios from 'axios'
 import impala from './img/impala.png'
 import palio from './img/palio-verde.png'
 import s10 from './img/s10.png'
-import mazda from './img/mazda.png'
 import defaultCar from './img/default.png'
-
+import loja from './img/loja.png'
 
 function App() {
   const [ranking, setRanking] = useState([])
   const [jogadorSelecionado, setJogadorSelecionado] = useState(null)
+  const [mostrarLoja, setMostrarLoja] = useState(false)
 
   const alturaPorCarro = {
     [impala]: 50,
     [palio]: 50,
     [s10]: 50,
-    [mazda]: 50,
     [defaultCar]: 50,
   }
 
   const larguraPorCarro = {
     [impala]: 70,
     [palio]: 70,
-    [mazda]: 70,
     [s10]: 80,
     [defaultCar]: 70,
   }
@@ -50,7 +48,7 @@ function App() {
 
   // Carros de cada jogador
   const carros = {
-    'Alan': mazda,
+    'Alan': impala,
     'Leo Rosa': impala,
     'Alesson': palio,
     'Joao': s10
@@ -80,6 +78,8 @@ function App() {
 
   return (
     <div className="container">
+      <button className="botao-loja" onClick={() => setMostrarLoja(true)}><img src={loja} alt="" className='compra'/></button>
+
       <h1>🏁 Ranking dos Colaboradores</h1>
 
       <div className="pista">
@@ -110,8 +110,8 @@ function App() {
                 />
               </div>
               <div className="container-ticket">
-                <div className="tickets2">🪙</div>
-                <div className="tickets">{jogador.pontos}</div>
+                <div className="tickets2">📏</div>
+                <div className="tickets">{jogador.tickets} km</div>
               </div>
             </div>
           )
@@ -125,8 +125,9 @@ function App() {
             <button onClick={() => setJogadorSelecionado(null)}>✖</button>
             <h2>Informações do Jogador</h2>
             <p><strong>👤Nome:</strong> {jogadorSelecionado.nickname}</p>
-            <p><strong>✉️Tickets:</strong> {jogadorSelecionado.tickets}</p>
             <p><strong>🔧Atendimento:</strong> {funcoes[jogadorSelecionado.nickname] || "Não informada"}</p>
+            <p><strong>✉️Tickets:</strong> {jogadorSelecionado.tickets}</p>
+            <p><strong>📏Quilometragem:</strong> {jogadorSelecionado.tickets} km</p>
             <p><strong>🪙Pontos:</strong> {jogadorSelecionado.pontos}</p>
           </div>
         </div>
@@ -169,7 +170,24 @@ function App() {
           )
         })}
       </div>
+      {mostrarLoja && (
+  <div className="telinha-loja">
+    <div className="conteudo-loja">
+  <button className="fechar-loja" onClick={() => setMostrarLoja(false)}>✖</button>
+  <h2>Loja</h2>
+  <div className="itens-loja">
+    <button className="item-loja">🧪 <strong>Nitro</strong> – Quilometragem bônus</button>
+    <button className="item-loja">🔫 <strong>Arma</strong> – Repassa um ticket</button>
+    <button className="item-loja">💥 <strong>Munição</strong> – Tickets que pode repassar</button>
+    <button className="item-loja">🛡️ <strong>Proteção</strong> – Bloqueia ataques</button>
+    <button className="item-loja">🧰 <strong>Pitstop</strong> – Tempo de folga</button>
+  </div>
+</div>
+  </div>
+)}
+
     </div>
+
   )
 }
 
