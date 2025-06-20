@@ -6,6 +6,7 @@ import axios from 'axios'
 import impala from './img/impala.png'
 import palio from './img/palio-verde.png'
 import s10 from './img/s10.png'
+import mazda from './img/mazda.png'
 import defaultCar from './img/default.png'
 import loja from './img/loja.png'
 
@@ -18,11 +19,13 @@ function App() {
     [impala]: 50,
     [palio]: 50,
     [s10]: 50,
+    [mazda]: 50,
     [defaultCar]: 50,
   }
 
   const larguraPorCarro = {
     [impala]: 70,
+    [mazda]: 70,
     [palio]: 70,
     [s10]: 80,
     [defaultCar]: 70,
