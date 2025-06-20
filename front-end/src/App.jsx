@@ -48,7 +48,7 @@ function App() {
 
   // Carros de cada jogador
   const carros = {
-    'Alan': impala,
+    'Alan': mazda,
     'Leo Rosa': impala,
     'Alesson': palio,
     'Joao': s10
