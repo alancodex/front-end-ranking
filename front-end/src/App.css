@@ -1,6 +1,8 @@
 body {
-  background: url(./img/estrada.avif);
-  background-position: center;    /* centraliza a imagem */
+  background: url(./img/estrada.jpg) no-repeat center center fixed;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
