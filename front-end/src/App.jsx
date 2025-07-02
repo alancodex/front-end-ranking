@@ -17,8 +17,15 @@ function App() {
   const [ranking, setRanking] = useState([])
   const [jogadorSelecionado, setJogadorSelecionado] = useState(null)
   const [mostrarLoja, setMostrarLoja] = useState(false)
-  const [dataDe, setDataDe] = useState('01/07/2025')
-  const [dataAte, setDataAte] = useState('01/07/2025')
+  const [dataDe, setDataDe] = useState('01/06/2025')
+  const [dataAte, setDataAte] = useState(() => {
+  const hoje = new Date()
+  const dia = String(hoje.getDate()).padStart(2, '0')
+  const mes = String(hoje.getMonth() + 1).padStart(2, '0') // mês começa do 0
+  const ano = hoje.getFullYear()
+  return `${dia}/${mes}/${ano}`
+})
+
 
   const alturaPorCarro = {
     [impala]: 50, [delrey]: 50, [palio]: 50,
