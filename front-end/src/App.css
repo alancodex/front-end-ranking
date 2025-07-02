@@ -318,3 +318,89 @@ body {
   width: 30px;
   height: 30px;
 }
+
+.botao {
+  padding: 8px 21px;
+  border-radius: 3px;
+  box-shadow: 0px 0px 12px -2px rgba(0,0,0,0.5);
+  line-height: 1.25;
+  background: #304fe9;
+  text-decoration: none;
+  user-select: none;
+  color: white;
+  font-size: 16px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  position: relative;
+  transition: background-color .6s ease;
+  overflow: hidden;
+  &:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: 50%;
+    left: 50%;
+    top: var(--mouse-y);
+    left: var(--mouse-x);
+    transform-style: flat;
+    transform: translate3d(-50%,-50%,0);
+    background: rgba(white,.1);
+    border-radius: 100%;
+    transition: width .3s ease, height .3s ease;
+  }
+  &:focus,
+  &:hover {
+      background: darken(#FC6E51,7%);
+  }
+  &:active {
+    &:after {
+      width: 300px;
+      height: 300px;
+    }
+  }
+}
+
+.filtro-data {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: right;
+  gap: 1rem;
+}
+
+.container2 {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: right;
+  gap: 1rem;
+  gap: 100px;
+}
+
+.filtro-data label {
+  color: #ffffff;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95rem;
+}
+
+.filtro-data input {
+  padding: 0.4rem 0.8rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 0.95rem;
+  background-color: #f5f5f5;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 130px;
+}
+
+.filtro-data input:focus {
+  border-color: #1a73e8;
+  box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
