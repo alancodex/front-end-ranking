@@ -1,4 +1,3 @@
-// App.js
 import './App.css'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
@@ -17,15 +16,15 @@ function App() {
   const [ranking, setRanking] = useState([])
   const [jogadorSelecionado, setJogadorSelecionado] = useState(null)
   const [mostrarLoja, setMostrarLoja] = useState(false)
-  const [dataDe, setDataDe] = useState('01/06/2025')
-  const [dataAte, setDataAte] = useState(() => {
-  const hoje = new Date()
-  const dia = String(hoje.getDate()).padStart(2, '0')
-  const mes = String(hoje.getMonth() + 1).padStart(2, '0') // mês começa do 0
-  const ano = hoje.getFullYear()
-  return `${dia}/${mes}/${ano}`
-})
 
+  const [dataDe, setDataDe] = useState('2025-06-01')
+  const [dataAte, setDataAte] = useState(() => {
+    const hoje = new Date()
+    const ano = hoje.getFullYear()
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0')
+    const dia = String(hoje.getDate()).padStart(2, '0')
+    return `${ano}-${mes}-${dia}`
+  })
 
   const alturaPorCarro = {
     [impala]: 50, [delrey]: 50, [palio]: 50,
@@ -57,9 +56,17 @@ function App() {
     'Vitor': skyline, 'Karol': mustang, 'Izabelly': delrey,
   }
 
+  const formatarDataParaBR = (dataISO) => {
+    const [ano, mes, dia] = dataISO.split('-')
+    return `${dia}/${mes}/${ano}`
+  }
+
   const fetchRanking = () => {
     axios.get('https://back-end-ranking.onrender.com/api/ranking', {
-      params: { de: dataDe, ate: dataAte }
+      params: {
+        de: formatarDataParaBR(dataDe),
+        ate: formatarDataParaBR(dataAte)
+      }
     })
       .then(response => {
         const jogadoresFiltrados = response.data.filter(jogador =>
@@ -71,27 +78,6 @@ function App() {
       })
       .catch(error => console.error('Erro ao buscar ranking:', error))
   }
-
-  function handleDataInput(e) {
-    let value = e.target.value.replace(/\D/g, '');
-
-    if (value.length > 2) {
-      value = value.slice(0, 2) + '/' + value.slice(2);
-    }
-    if (value.length > 5) {
-      value = value.slice(0, 5) + '/' + value.slice(5, 9);
-    }
-
-    e.target.value = value;
-
-    // Atualiza o state correto
-    if (e.target.name === 'de') {
-      setDataDe(value);
-    } else {
-      setDataAte(value);
-    }
-  }
-
 
   useEffect(() => {
     fetchRanking()
@@ -105,7 +91,6 @@ function App() {
         </button>
       </div>
 
-      {/* Filtro de datas */}
       <div className='container2'>
         <div>
           <h1>🏁 Ranking dos Colaboradores</h1>
@@ -114,13 +99,10 @@ function App() {
           <label>
             De:
             <input
-              type="text"
+              type="date"
               name="de"
               value={dataDe}
               onChange={e => setDataDe(e.target.value)}
-              onInput={handleDataInput}
-              maxLength={10}
-              placeholder="dd/mm/aaaa"
               style={{ marginLeft: '0.5rem' }}
             />
           </label>
@@ -128,18 +110,15 @@ function App() {
           <label style={{ marginLeft: '1rem' }}>
             Até:
             <input
-              type="text"
+              type="date"
               name="ate"
               value={dataAte}
               onChange={e => setDataAte(e.target.value)}
-              onInput={handleDataInput}
-              maxLength={10}
-              placeholder="dd/mm/aaaa"
               style={{ marginLeft: '0.5rem' }}
             />
           </label>
 
-          <button onClick={() => fetchRanking(dataDe, dataAte)} style={{ marginLeft: '1rem' }} className='botao'>
+          <button onClick={fetchRanking} style={{ marginLeft: '1rem' }} className='botao'>
             Filtrar
           </button>
         </div>
