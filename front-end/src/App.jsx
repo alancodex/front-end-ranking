@@ -79,6 +79,35 @@ function App() {
       .catch(error => console.error('Erro ao buscar ranking:', error))
   }
 
+  const fullText = 'Por Alan Sobral e Gerson Gineton';
+  const [text, setText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const typingSpeed = isDeleting ? 50 : 100;
+
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        // Escrevendo
+        setText(fullText.substring(0, index + 1));
+        setIndex((prev) => prev + 1);
+        if (index + 1 === fullText.length) {
+          setTimeout(() => setIsDeleting(true), 1500); // Espera antes de apagar
+        }
+      } else {
+        // Apagando
+        setText(fullText.substring(0, index - 1));
+        setIndex((prev) => prev - 1);
+        if (index === 0) {
+          setIsDeleting(false);
+        }
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [index, isDeleting, fullText]);
+
   useEffect(() => {
     fetchRanking()
   }, [])
@@ -228,6 +257,12 @@ function App() {
           </div>
         </div>
       )}
+      <div>
+        <h1 style={{ fontFamily: 'monospace' }} className='criadores'>
+          {text}
+          <span className="cursor">|</span>
+        </h1>
+      </div>
     </div>
   )
 }
