@@ -74,7 +74,7 @@ const fetchRanking = () => {
           .includes(jogador.nickname.toLowerCase())
       ).map(jogador => {
         const isTelefonico = funcoes[jogador.nickname] === 'Telefônico'
-        const ticketsComBonus = isTelefonico ? jogador.tickets * 1.2 : jogador.tickets
+        const ticketsComBonus = isTelefonico ? jogador.tickets: jogador.tickets
         return { ...jogador, ticketsComBonus }
       })
 
@@ -101,7 +101,6 @@ useEffect(() => {
 
   useEffect(() => {
     const typingSpeed = isDeleting ? 50 : 100;
-
     const timeout = setTimeout(() => {
       if (!isDeleting) {
         // Escrevendo
