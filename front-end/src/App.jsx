@@ -178,7 +178,11 @@ function App() {
               </div>
               <div className="container-ticket">
                 <div className="tickets2">📏</div>
-                <div className="tickets">{jogador.tickets} km</div>
+                <div className="tickets">
+                  {funcoes[jogador.nickname] === 'Telefônico'
+                    ? `${Math.round(jogador.tickets * 1.2)} km`
+                    : `${jogador.tickets} km`}
+                </div>
               </div>
             </div>
           )
