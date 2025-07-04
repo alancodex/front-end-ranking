@@ -94,7 +94,7 @@ useEffect(() => {
   return () => clearInterval(intervalo); // limpa se o componente for desmontado
 }, [dataDe, dataAte]); // se mudar a data, ele reinicia o intervalo com as novas datas
 
-  const fullText = 'Por Alan Sobral e Gerson Gineton';
+  const fullText = 'Desenvolvido por Alan Sobral';
   const [text, setText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [index, setIndex] = useState(0);
