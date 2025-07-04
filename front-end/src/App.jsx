@@ -61,23 +61,38 @@ function App() {
     return `${dia}/${mes}/${ano}`
   }
 
-  const fetchRanking = () => {
-    axios.get('https://back-end-ranking.onrender.com/api/ranking', {
-      params: {
-        de: formatarDataParaBR(dataDe),
-        ate: formatarDataParaBR(dataAte)
-      }
-    })
-      .then(response => {
-        const jogadoresFiltrados = response.data.filter(jogador =>
-          jogador.nickname && !['lemos', 'gerson', 'leonardo', 'wandson', 'gabi', 'athus', 'brum', 'karl', 'natália']
-            .includes(jogador.nickname.toLowerCase())
-        )
-        const ordenado = [...jogadoresFiltrados].sort((a, b) => b.tickets - a.tickets)
-        setRanking(ordenado)
+const fetchRanking = () => {
+  axios.get('https://back-end-ranking.onrender.com/api/ranking', {
+    params: {
+      de: formatarDataParaBR(dataDe),
+      ate: formatarDataParaBR(dataAte)
+    }
+  })
+    .then(response => {
+      const jogadoresFiltrados = response.data.filter(jogador =>
+        jogador.nickname && !['lemos', 'gerson', 'leonardo', 'wandson', 'gabi', 'athus', 'brum', 'karl', 'natália']
+          .includes(jogador.nickname.toLowerCase())
+      ).map(jogador => {
+        const isTelefonico = funcoes[jogador.nickname] === 'Telefônico'
+        const ticketsComBonus = isTelefonico ? jogador.tickets * 1.2 : jogador.tickets
+        return { ...jogador, ticketsComBonus }
       })
-      .catch(error => console.error('Erro ao buscar ranking:', error))
-  }
+
+      const ordenado = [...jogadoresFiltrados].sort((a, b) => b.ticketsComBonus - a.ticketsComBonus)
+      setRanking(ordenado)
+    })
+    .catch(error => console.error('Erro ao buscar ranking:', error))
+}
+
+useEffect(() => {
+  fetchRanking(); // chama logo ao abrir
+
+  const intervalo = setInterval(() => {
+    fetchRanking();
+  }, 30000); // a cada 60 segundos
+
+  return () => clearInterval(intervalo); // limpa se o componente for desmontado
+}, [dataDe, dataAte]); // se mudar a data, ele reinicia o intervalo com as novas datas
 
   const fullText = 'Por Alan Sobral e Gerson Gineton';
   const [text, setText] = useState('');
@@ -178,11 +193,9 @@ function App() {
               </div>
               <div className="container-ticket">
                 <div className="tickets2">📏</div>
-                <div className="tickets">
-                  {funcoes[jogador.nickname] === 'Telefônico'
-                    ? `${Math.round(jogador.tickets * 1.2)} km`
-                    : `${jogador.tickets} km`}
-                </div>
+<div className="tickets">
+  {`${Math.round(jogador.ticketsComBonus)} km`}
+</div>
               </div>
             </div>
           )
@@ -207,7 +220,7 @@ function App() {
             />
             <p><strong>🔧Atendimento:</strong> {funcoes[jogadorSelecionado.nickname] || "Não informada"}</p>
             <p><strong>✉️Tickets:</strong> {jogadorSelecionado.tickets}</p>
-            <p><strong>📏Quilometragem:</strong> {jogadorSelecionado.tickets} km</p>
+            <p><strong>📏Quilometragem:</strong> {Math.round(jogadorSelecionado.ticketsComBonus)} km</p>
             <p><strong>🪙Pontos:</strong> {jogadorSelecionado.pontos}</p>
           </div>
         </div>
