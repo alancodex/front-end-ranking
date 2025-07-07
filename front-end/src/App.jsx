@@ -16,8 +16,15 @@ function App() {
   const [ranking, setRanking] = useState([])
   const [jogadorSelecionado, setJogadorSelecionado] = useState(null)
   const [mostrarLoja, setMostrarLoja] = useState(false)
+  
+  const [dataDe, setDataDe] = useState(() => {
+    const hoje = new Date()
+    const ano = hoje.getFullYear()
+    const mes = String(hoje.getMonth() + 1).padStart(2, '0')
+    const dia = String(hoje.getDate()).padStart(2, '0')
+    return `${ano}-${mes}-${dia}`
+  })
 
-  const [dataDe, setDataDe] = useState('2025-06-01')
   const [dataAte, setDataAte] = useState(() => {
     const hoje = new Date()
     const ano = hoje.getFullYear()
