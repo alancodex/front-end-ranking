@@ -16,7 +16,7 @@ function App() {
   const [ranking, setRanking] = useState([])
   const [jogadorSelecionado, setJogadorSelecionado] = useState(null)
   const [mostrarLoja, setMostrarLoja] = useState(false)
-  
+
   const [dataDe, setDataDe] = useState(() => {
     const hoje = new Date()
     const ano = hoje.getFullYear()
@@ -68,70 +68,85 @@ function App() {
     return `${dia}/${mes}/${ano}`
   }
 
-const fetchRanking = () => {
-  axios.get('https://back-end-ranking.onrender.com/api/ranking', {
-    params: {
-      de: formatarDataParaBR(dataDe),
-      ate: formatarDataParaBR(dataAte)
-    }
-  })
-    .then(response => {
-      const jogadoresFiltrados = response.data.filter(jogador =>
-        jogador.nickname && !['lemos', 'gerson', 'leonardo', 'wandson', 'gabi', 'athus', 'brum', 'karl', 'natália']
-          .includes(jogador.nickname.toLowerCase())
-      ).map(jogador => {
-        const isTelefonico = funcoes[jogador.nickname] === 'Telefônico'
-        const ticketsComBonus = isTelefonico ? jogador.tickets: jogador.tickets
-        return { ...jogador, ticketsComBonus }
-      })
-
-      const ordenado = [...jogadoresFiltrados].sort((a, b) => b.ticketsComBonus - a.ticketsComBonus)
-      setRanking(ordenado)
-    })
-    .catch(error => console.error('Erro ao buscar ranking:', error))
-}
-
-useEffect(() => {
-  fetchRanking(); // chama logo ao abrir
-
-  const intervalo = setInterval(() => {
-    fetchRanking();
-  }, 30000); // a cada 60 segundos
-
-  return () => clearInterval(intervalo); // limpa se o componente for desmontado
-}, [dataDe, dataAte]); // se mudar a data, ele reinicia o intervalo com as novas datas
-
-  const fullText = 'Desenvolvido por Alan Sobral';
-  const [text, setText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const typingSpeed = isDeleting ? 50 : 100;
-    const timeout = setTimeout(() => {
-      if (!isDeleting) {
-        // Escrevendo
-        setText(fullText.substring(0, index + 1));
-        setIndex((prev) => prev + 1);
-        if (index + 1 === fullText.length) {
-          setTimeout(() => setIsDeleting(true), 1500); // Espera antes de apagar
-        }
-      } else {
-        // Apagando
-        setText(fullText.substring(0, index - 1));
-        setIndex((prev) => prev - 1);
-        if (index === 0) {
-          setIsDeleting(false);
-        }
+  const fetchRanking = () => {
+    axios.get('https://back-end-ranking.onrender.com/api/ranking', {
+      params: {
+        de: formatarDataParaBR(dataDe),
+        ate: formatarDataParaBR(dataAte)
       }
-    }, typingSpeed);
+    })
+      .then(response => {
+        const jogadoresFiltrados = response.data.filter(jogador =>
+          jogador.nickname && !['lemos', 'gerson', 'leonardo', 'wandson', 'gabi', 'athus', 'brum', 'karl', 'natália']
+            .includes(jogador.nickname.toLowerCase())
+        ).map(jogador => {
+          const isTelefonico = funcoes[jogador.nickname] === 'Telefônico'
+          const ticketsComBonus = isTelefonico ? jogador.tickets : jogador.tickets
+          return { ...jogador, ticketsComBonus }
+        })
 
-    return () => clearTimeout(timeout);
-  }, [index, isDeleting, fullText]);
+        const ordenado = [...jogadoresFiltrados].sort((a, b) => b.ticketsComBonus - a.ticketsComBonus)
+        setRanking(ordenado)
+      })
+      .catch(error => console.error('Erro ao buscar ranking:', error))
+  }
 
   useEffect(() => {
     fetchRanking()
+    const intervalo = setInterval(() => {
+      fetchRanking()
+    }, 30000)
+    return () => clearInterval(intervalo)
+  }, [dataDe, dataAte])
+
+  useEffect(() => {
+    const hoje = new Date()
+    let dataAtual = hoje.toDateString()
+
+    const intervaloDia = setInterval(() => {
+      const novaData = new Date().toDateString()
+      if (novaData !== dataAtual) {
+        const novoHoje = new Date()
+        const ano = novoHoje.getFullYear()
+        const mes = String(novoHoje.getMonth() + 1).padStart(2, '0')
+        const dia = String(novoHoje.getDate()).padStart(2, '0')
+        const novaDataFormatada = `${ano}-${mes}-${dia}`
+
+        setDataDe(novaDataFormatada)
+        setDataAte(novaDataFormatada)
+        fetchRanking()
+        dataAtual = novaData
+      }
+    }, 60000)
+
+    return () => clearInterval(intervaloDia)
   }, [])
+
+  const fullText = 'Desenvolvido por Alan Sobral'
+  const [text, setText] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [index, setIndex] = useState(0)
+
+  useEffect(() => {
+    const typingSpeed = isDeleting ? 50 : 100
+    const timeout = setTimeout(() => {
+      if (!isDeleting) {
+        setText(fullText.substring(0, index + 1))
+        setIndex((prev) => prev + 1)
+        if (index + 1 === fullText.length) {
+          setTimeout(() => setIsDeleting(true), 1500)
+        }
+      } else {
+        setText(fullText.substring(0, index - 1))
+        setIndex((prev) => prev - 1)
+        if (index === 0) {
+          setIsDeleting(false)
+        }
+      }
+    }, typingSpeed)
+
+    return () => clearTimeout(timeout)
+  }, [index, isDeleting, fullText])
 
   return (
     <div className="container">
@@ -199,9 +214,9 @@ useEffect(() => {
               </div>
               <div className="container-ticket">
                 <div className="tickets2">📏</div>
-<div className="tickets">
-  {`${Math.round(jogador.ticketsComBonus)} km`}
-</div>
+                <div className="tickets">
+                  {`${Math.round(jogador.ticketsComBonus)} km`}
+                </div>
               </div>
             </div>
           )
