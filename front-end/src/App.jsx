@@ -106,6 +106,15 @@ const [novaImagem, setNovaImagem] = useState('')
   }
 
   useEffect(() => {
+  const tituloSalvo = localStorage.getItem('tituloPremiacao')
+  const imagemSalva = localStorage.getItem('imagemPremiacao')
+
+  if (tituloSalvo) setTituloPremiacao(tituloSalvo)
+  if (imagemSalva) setImagemPremiacao(imagemSalva)
+}, [])
+
+
+  useEffect(() => {
     fetchRanking()
     const intervalo = setInterval(() => {
       fetchRanking()
@@ -362,11 +371,22 @@ const [novaImagem, setNovaImagem] = useState('')
           </button>
           <button
             className="botao-cancelar"
-            onClick={() => {
-              setModoEdicao(false)
-              setSenhaEdicao('')
-              setSenhaConfirmada(false)
-            }}
+           onClick={() => {
+  if (novoTitulo) {
+    setTituloPremiacao(novoTitulo)
+    localStorage.setItem('tituloPremiacao', novoTitulo)
+  }
+  if (novaImagem) {
+    setImagemPremiacao(novaImagem)
+    localStorage.setItem('imagemPremiacao', novaImagem)
+  }
+  setModoEdicao(false)
+  setSenhaEdicao('')
+  setSenhaConfirmada(false)
+  setNovoTitulo('')
+  setNovaImagem('')
+}}
+
           >
             Cancelar
           </button>
