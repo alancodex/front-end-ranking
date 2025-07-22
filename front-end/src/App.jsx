@@ -418,10 +418,11 @@ function App() {
                               }
 
                               // Envie para o backend
-                              axios.post('https://seu-backend/premiacao', {
+                              axios.post('https://back-end-ranking.onrender.com/premiacao', {
                                 titulo: novoTitulo,
                                 imagem: novaImagem
                               })
+
                                 .then(res => {
                                   if (res.data.status === 'ok') {
                                     alert('Premiação salva com sucesso!')
