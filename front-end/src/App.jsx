@@ -12,10 +12,24 @@ import mustang from './img/mustang.png'
 import defaultCar from './img/default.png'
 import loja from './img/loja.png'
 
+
 function App() {
   const [ranking, setRanking] = useState([])
   const [jogadorSelecionado, setJogadorSelecionado] = useState(null)
   const [mostrarLoja, setMostrarLoja] = useState(false)
+  const [senhaPremiacao, setSenhaPremiacao] = useState('')
+  const [mostrarPremiacao, setMostrarPremiacao] = useState(false)
+  const [tituloPremiacao, setTituloPremiacao] = useState('🏆 Parabéns aos campeões!')
+const [imagemPremiacao, setImagemPremiacao] = useState('https://i.imgur.com/0Z6P9oN.png')
+
+const [modoEdicao, setModoEdicao] = useState(false)
+const [senhaEdicao, setSenhaEdicao] = useState('')
+const [senhaConfirmada, setSenhaConfirmada] = useState(false)
+
+const [novoTitulo, setNovoTitulo] = useState('')
+const [novaImagem, setNovaImagem] = useState('')
+
+
 
   const [dataDe, setDataDe] = useState(() => {
     const hoje = new Date()
@@ -47,10 +61,10 @@ function App() {
 
   const funcoes = {
     'Alan': 'Telefônico', 'Karol': 'Telefônico', 'Alex Aquino': 'Telefônico',
-    'Lustosa': 'Telefônico', 'Tulio': 'Telefônico', 'Izabelly': 'Whatsapp',
-    'Joao': 'Whatsapp', 'Vitor': 'Whatsapp', 'Erico': 'Whatsapp Nivel 2',
-    'Alesson': 'Whatsapp Nivel 2', 'Jeiel': 'Whatsapp', 'Alves': 'Whatsapp',
-    'Leo Rosa': 'Whatsapp', 'Clebson': 'Whatsapp Nivel 2',
+    'Lustosa': 'Telefônico', 'Tulio': 'Telefônico', 'Izabelly': 'Whatsapp Nivel 1',
+    'Joao': 'Whatsapp Nivel 1', 'Vitor': 'Whatsapp Nivel 1', 'Erico': 'Whatsapp Nivel 2',
+    'Alesson': 'Whatsapp Nivel 2', 'Jeiel': 'Whatsapp Nivel 1', 'Alves': 'Whatsapp Nivel 1',
+    'Leo Rosa': 'Whatsapp Nivel 1', 'Clebson': 'Whatsapp Nivel 2',
   }
 
   const nomeCarro = {
@@ -121,6 +135,15 @@ function App() {
 
     return () => clearInterval(intervaloDia)
   }, [])
+
+  const totalGeralTickets = ranking.reduce((acc, jogador) => acc + jogador.ticketsComBonus, 0)
+
+  const totaisPorSetor = ranking.reduce((acc, jogador) => {
+    const setor = funcoes[jogador.nickname] || 'Não informada'
+    if (!acc[setor]) acc[setor] = 0
+    acc[setor] += jogador.ticketsComBonus
+    return acc
+  }, {})
 
   const fullText = 'Desenvolvido por Alan Sobral'
   const [text, setText] = useState('')
@@ -257,9 +280,9 @@ function App() {
           ))}
         </div>
 
-        {["Whatsapp", "Whatsapp Nivel 2", "Telefônico"].map(tipo => {
+        {["Whatsapp Nivel 1", "Whatsapp Nivel 2", "Telefônico"].map(tipo => {
           const titulo = {
-            "Whatsapp": "📱 WhatsApp Nível 1",
+            "Whatsapp Nivel 1": "📱 WhatsApp Nível 1",
             "Whatsapp Nivel 2": "⚙️ WhatsApp Nível 2",
             "Telefônico": "📞 Telefônico"
           }[tipo]
@@ -280,21 +303,131 @@ function App() {
         })}
       </div>
 
+      {/* TOTALIZADORES ABAIXO DOS PÓDIOS */}
+      <div className="totalizadores">
+        <div className="total-geral">
+          <strong>Total Geral:</strong> {Math.round(totalGeralTickets)} km
+        </div>
+        <br />
+        <div className="setores-totais">
+          {Object.entries(totaisPorSetor).map(([setor, total]) => (
+            <div key={setor} className="setor-total">
+              <strong>{setor}:</strong> {Math.round(total)} km
+            </div>
+          ))}
+        </div>
+      </div>
+
+
+
       {mostrarLoja && (
         <div className="telinha-loja">
           <div className="conteudo-loja">
             <button className="fechar-loja" onClick={() => setMostrarLoja(false)}>✖</button>
-            <h2>Loja</h2>
-            <div className="itens-loja">
-              <button className="item-loja">🧪 <strong>Nitro</strong> – Quilometragem bônus</button>
-              <button className="item-loja">🔫 <strong>Arma</strong> – Repassa um ticket</button>
-              <button className="item-loja">💥 <strong>Munição</strong> – Tickets que pode repassar</button>
-              <button className="item-loja">🛡️ <strong>Proteção</strong> – Bloqueia ataques</button>
-              <button className="item-loja">🧰 <strong>Pitstop</strong> – Tempo de folga</button>
-            </div>
+          {/* SEÇÃO DE PREMIAÇÃO - VISÍVEL PARA TODOS */}
+<div className="premiacao-container">
+  <h2>{tituloPremiacao}</h2>
+  <img src={imagemPremiacao} alt="Premiação" className="img-premio" />
+
+  {/* BOTÃO PARA EDITAR (admin) */}
+  {!modoEdicao && (
+    <button onClick={() => setModoEdicao(true)} className="botao-editar">
+      ✏️ Editar Premiação (admin)
+    </button>
+  )}
+
+  {/* FORMULÁRIO DE EDIÇÃO COM SENHA */}
+  {modoEdicao && (
+    <div className="form-edicao">
+      {!senhaConfirmada ? (
+        <div>
+          <input
+            type="password"
+            placeholder="Digite a senha do admin"
+            value={senhaEdicao}
+            onChange={(e) => setSenhaEdicao(e.target.value)}
+            className="input-senha"
+          />
+          <button
+            className="botao-confirmar"
+            onClick={() => {
+              if (senhaEdicao === 'admin123') {
+                setSenhaConfirmada(true)
+              } else {
+                alert('Senha incorreta!')
+              }
+            }}
+          >
+            Confirmar
+          </button>
+          <button
+            className="botao-cancelar"
+            onClick={() => {
+              setModoEdicao(false)
+              setSenhaEdicao('')
+              setSenhaConfirmada(false)
+            }}
+          >
+            Cancelar
+          </button>
+        </div>
+      ) : (
+        <div className="campos-edicao">
+          <input
+            type="text"
+            placeholder="Novo título da premiação"
+            value={novoTitulo}
+            onChange={(e) => setNovoTitulo(e.target.value)}
+            className="input-editar"
+          />
+          <input
+            type="text"
+            placeholder="URL da nova imagem"
+            value={novaImagem}
+            onChange={(e) => setNovaImagem(e.target.value)}
+            className="input-editar"
+          />
+          <div>
+            <button
+              className="botao-salvar"
+              onClick={() => {
+                if (novoTitulo) setTituloPremiacao(novoTitulo)
+                if (novaImagem) setImagemPremiacao(novaImagem)
+                setModoEdicao(false)
+                setSenhaEdicao('')
+                setSenhaConfirmada(false)
+                setNovoTitulo('')
+                setNovaImagem('')
+              }}
+            >
+              Salvar alterações
+            </button>
+            <button
+              className="botao-cancelar"
+              onClick={() => {
+                setModoEdicao(false)
+                setSenhaEdicao('')
+                setSenhaConfirmada(false)
+                setNovoTitulo('')
+                setNovaImagem('')
+              }}
+            >
+              Cancelar
+            </button>
           </div>
         </div>
       )}
+    </div>
+    
+  )}
+</div>
+</div>
+
+
+        </div>
+
+      )}
+
       <div>
         <h1 style={{ fontFamily: 'monospace' }} className='criadores'>
           {text}
