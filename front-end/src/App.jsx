@@ -20,14 +20,14 @@ function App() {
   const [senhaPremiacao, setSenhaPremiacao] = useState('')
   const [mostrarPremiacao, setMostrarPremiacao] = useState(false)
   const [tituloPremiacao, setTituloPremiacao] = useState('🏆 Parabéns aos campeões!')
-const [imagemPremiacao, setImagemPremiacao] = useState('https://i.imgur.com/0Z6P9oN.png')
+  const [imagemPremiacao, setImagemPremiacao] = useState('https://i.imgur.com/0Z6P9oN.png')
 
-const [modoEdicao, setModoEdicao] = useState(false)
-const [senhaEdicao, setSenhaEdicao] = useState('')
-const [senhaConfirmada, setSenhaConfirmada] = useState(false)
+  const [modoEdicao, setModoEdicao] = useState(false)
+  const [senhaEdicao, setSenhaEdicao] = useState('')
+  const [senhaConfirmada, setSenhaConfirmada] = useState(false)
 
-const [novoTitulo, setNovoTitulo] = useState('')
-const [novaImagem, setNovaImagem] = useState('')
+  const [novoTitulo, setNovoTitulo] = useState('')
+  const [novaImagem, setNovaImagem] = useState('')
 
 
 
@@ -106,12 +106,12 @@ const [novaImagem, setNovaImagem] = useState('')
   }
 
   useEffect(() => {
-  const tituloSalvo = localStorage.getItem('tituloPremiacao')
-  const imagemSalva = localStorage.getItem('imagemPremiacao')
+    const tituloSalvo = localStorage.getItem('tituloPremiacao')
+    const imagemSalva = localStorage.getItem('imagemPremiacao')
 
-  if (tituloSalvo) setTituloPremiacao(tituloSalvo)
-  if (imagemSalva) setImagemPremiacao(imagemSalva)
-}, [])
+    if (tituloSalvo) setTituloPremiacao(tituloSalvo)
+    if (imagemSalva) setImagemPremiacao(imagemSalva)
+  }, [])
 
 
   useEffect(() => {
@@ -333,115 +333,137 @@ const [novaImagem, setNovaImagem] = useState('')
         <div className="telinha-loja">
           <div className="conteudo-loja">
             <button className="fechar-loja" onClick={() => setMostrarLoja(false)}>✖</button>
-          {/* SEÇÃO DE PREMIAÇÃO - VISÍVEL PARA TODOS */}
-<div className="premiacao-container">
-  <h2>{tituloPremiacao}</h2>
-  <img src={imagemPremiacao} alt="Premiação" className="img-premio" />
+            {/* SEÇÃO DE PREMIAÇÃO - VISÍVEL PARA TODOS */}
+            <div className="premiacao-container">
+              <h2>{tituloPremiacao}</h2>
+              <img src={imagemPremiacao} alt="Premiação" className="img-premio" />
 
-  {/* BOTÃO PARA EDITAR (admin) */}
-  {!modoEdicao && (
-    <button onClick={() => setModoEdicao(true)} className="botao-editar">
-      ✏️ Editar Premiação (admin)
-    </button>
-  )}
+              {/* BOTÃO PARA EDITAR (admin) */}
+              {!modoEdicao && (
+                <button onClick={() => setModoEdicao(true)} className="botao-editar">
+                  ✏️ Editar Premiação (admin)
+                </button>
+              )}
 
-  {/* FORMULÁRIO DE EDIÇÃO COM SENHA */}
-  {modoEdicao && (
-    <div className="form-edicao">
-      {!senhaConfirmada ? (
-        <div>
-          <input
-            type="password"
-            placeholder="Digite a senha do admin"
-            value={senhaEdicao}
-            onChange={(e) => setSenhaEdicao(e.target.value)}
-            className="input-senha"
-          />
-          <button
-            className="botao-confirmar"
-            onClick={() => {
-              if (senhaEdicao === 'admin123') {
-                setSenhaConfirmada(true)
-              } else {
-                alert('Senha incorreta!')
-              }
-            }}
-          >
-            Confirmar
-          </button>
-          <button
-            className="botao-cancelar"
-           onClick={() => {
-  if (novoTitulo) {
-    setTituloPremiacao(novoTitulo)
-    localStorage.setItem('tituloPremiacao', novoTitulo)
-  }
-  if (novaImagem) {
-    setImagemPremiacao(novaImagem)
-    localStorage.setItem('imagemPremiacao', novaImagem)
-  }
-  setModoEdicao(false)
-  setSenhaEdicao('')
-  setSenhaConfirmada(false)
-  setNovoTitulo('')
-  setNovaImagem('')
-}}
+              {/* FORMULÁRIO DE EDIÇÃO COM SENHA */}
+              {modoEdicao && (
+                <div className="form-edicao">
+                  {!senhaConfirmada ? (
+                    <div>
+                      <input
+                        type="password"
+                        placeholder="Digite a senha do admin"
+                        value={senhaEdicao}
+                        onChange={(e) => setSenhaEdicao(e.target.value)}
+                        className="input-senha"
+                      />
+                      <button
+                        className="botao-confirmar"
+                        onClick={() => {
+                          if (senhaEdicao === 'admin123') {
+                            setSenhaConfirmada(true)
+                          } else {
+                            alert('Senha incorreta!')
+                          }
+                        }}
+                      >
+                        Confirmar
+                      </button>
+                      <button
+                        className="botao-cancelar"
+                        onClick={() => {
+                          if (novoTitulo) {
+                            setTituloPremiacao(novoTitulo)
+                            localStorage.setItem('tituloPremiacao', novoTitulo)
+                          }
+                          if (novaImagem) {
+                            setImagemPremiacao(novaImagem)
+                            localStorage.setItem('imagemPremiacao', novaImagem)
+                          }
+                          setModoEdicao(false)
+                          setSenhaEdicao('')
+                          setSenhaConfirmada(false)
+                          setNovoTitulo('')
+                          setNovaImagem('')
+                        }}
 
-          >
-            Cancelar
-          </button>
-        </div>
-      ) : (
-        <div className="campos-edicao">
-          <input
-            type="text"
-            placeholder="Novo título da premiação"
-            value={novoTitulo}
-            onChange={(e) => setNovoTitulo(e.target.value)}
-            className="input-editar"
-          />
-          <input
-            type="text"
-            placeholder="URL da nova imagem"
-            value={novaImagem}
-            onChange={(e) => setNovaImagem(e.target.value)}
-            className="input-editar"
-          />
-          <div>
-            <button
-              className="botao-salvar"
-              onClick={() => {
-                if (novoTitulo) setTituloPremiacao(novoTitulo)
-                if (novaImagem) setImagemPremiacao(novaImagem)
-                setModoEdicao(false)
-                setSenhaEdicao('')
-                setSenhaConfirmada(false)
-                setNovoTitulo('')
-                setNovaImagem('')
-              }}
-            >
-              Salvar alterações
-            </button>
-            <button
-              className="botao-cancelar"
-              onClick={() => {
-                setModoEdicao(false)
-                setSenhaEdicao('')
-                setSenhaConfirmada(false)
-                setNovoTitulo('')
-                setNovaImagem('')
-              }}
-            >
-              Cancelar
-            </button>
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="campos-edicao">
+                      <input
+                        type="text"
+                        placeholder="Novo título da premiação"
+                        value={novoTitulo}
+                        onChange={(e) => setNovoTitulo(e.target.value)}
+                        className="input-editar"
+                      />
+                      <input
+                        type="text"
+                        placeholder="URL da nova imagem"
+                        value={novaImagem}
+                        onChange={(e) => setNovaImagem(e.target.value)}
+                        className="input-editar"
+                      />
+                      <div>
+                        <button
+                          className="botao-salvar"
+                          onClick={async () => {
+                            try {
+                              const payload = {
+                                titulo: novoTitulo,
+                                imagem: novaImagem,
+                              }
+
+                              // Envie para o backend
+                              await axios.post('https://back-end-ranking.onrender.com/api/premiacao', payload)
+
+                              // Atualize no frontend
+                              if (novoTitulo) {
+                                setTituloPremiacao(novoTitulo)
+                                localStorage.setItem('tituloPremiacao', novoTitulo)
+                              }
+                              if (novaImagem) {
+                                setImagemPremiacao(novaImagem)
+                                localStorage.setItem('imagemPremiacao', novaImagem)
+                              }
+
+                              setModoEdicao(false)
+                              setSenhaEdicao('')
+                              setSenhaConfirmada(false)
+                              setNovoTitulo('')
+                              setNovaImagem('')
+                            } catch (error) {
+                              console.error('Erro ao salvar premiação:', error)
+                              alert('Erro ao salvar premiação no servidor.')
+                            }
+                          }}
+
+                        >
+                          Salvar alterações
+                        </button>
+                        <button
+                          className="botao-cancelar"
+                          onClick={() => {
+                            setModoEdicao(false)
+                            setSenhaEdicao('')
+                            setSenhaConfirmada(false)
+                            setNovoTitulo('')
+                            setNovaImagem('')
+                          }}
+                        >
+                          Cancelar
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+              )}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
-    
-  )}
-</div>
-</div>
 
 
         </div>
