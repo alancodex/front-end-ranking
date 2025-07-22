@@ -418,7 +418,21 @@ function App() {
                               }
 
                               // Envie para o backend
-                              await axios.post('https://back-end-ranking.onrender.com/api/premiacao', payload)
+                              axios.post('https://seu-backend/premiacao', {
+                                titulo: novoTitulo,
+                                imagem: novaImagem
+                              })
+                                .then(res => {
+                                  if (res.data.status === 'ok') {
+                                    alert('Premiação salva com sucesso!')
+                                  } else {
+                                    alert('Erro: ' + res.data.message)
+                                  }
+                                })
+                                .catch(err => {
+                                  alert('Erro ao conectar com o servidor: ' + err.message)
+                                })
+
 
                               // Atualize no frontend
                               if (novoTitulo) {
