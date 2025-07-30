@@ -10,7 +10,7 @@ import skyline from './img/skyline.png'
 import mazda from './img/mazda.png'
 import mustang from './img/mustang.png'
 import defaultCar from './img/default.png'
-import loja from './img/loja.png'
+import livre from './img/livre.jpg'
 
 
 function App() {
@@ -182,10 +182,12 @@ function App() {
 
   return (
     <div className="container">
+      <h2 className='sim'>Premiação 🏆</h2>
       <div className='container2'>
-        <button className="botao-loja" onClick={() => setMostrarLoja(true)}>
-          <img src={loja} alt="" className='compra' />
-        </button>
+          <div className="quadro-container">
+      <h2 className="quadro-titulo">Dia de folga</h2>
+      <img src={livre} alt="Exemplo" className="quadro-imagem" />
+    </div>
       </div>
 
       <div className='container2'>
@@ -327,163 +329,6 @@ function App() {
         </div>
       </div>
 
-
-
-      {mostrarLoja && (
-        <div className="telinha-loja">
-          <div className="conteudo-loja">
-            <button className="fechar-loja" onClick={() => setMostrarLoja(false)}>✖</button>
-            {/* SEÇÃO DE PREMIAÇÃO - VISÍVEL PARA TODOS */}
-            <div className="premiacao-container">
-              <h2>{tituloPremiacao}</h2>
-              <img src={imagemPremiacao} alt="Premiação" className="img-premio" />
-
-              {/* BOTÃO PARA EDITAR (admin) */}
-              {!modoEdicao && (
-                <button onClick={() => setModoEdicao(true)} className="botao-editar">
-                  ✏️ Editar Premiação (admin)
-                </button>
-              )}
-
-              {/* FORMULÁRIO DE EDIÇÃO COM SENHA */}
-              {modoEdicao && (
-                <div className="form-edicao">
-                  {!senhaConfirmada ? (
-                    <div>
-                      <input
-                        type="password"
-                        placeholder="Digite a senha do admin"
-                        value={senhaEdicao}
-                        onChange={(e) => setSenhaEdicao(e.target.value)}
-                        className="input-senha"
-                      />
-                      <button
-                        className="botao-confirmar"
-                        onClick={() => {
-                          if (senhaEdicao === 'admin123') {
-                            setSenhaConfirmada(true)
-                          } else {
-                            alert('Senha incorreta!')
-                          }
-                        }}
-                      >
-                        Confirmar
-                      </button>
-                      <button
-                        className="botao-cancelar"
-                        onClick={() => {
-                          if (novoTitulo) {
-                            setTituloPremiacao(novoTitulo)
-                            localStorage.setItem('tituloPremiacao', novoTitulo)
-                          }
-                          if (novaImagem) {
-                            setImagemPremiacao(novaImagem)
-                            localStorage.setItem('imagemPremiacao', novaImagem)
-                          }
-                          setModoEdicao(false)
-                          setSenhaEdicao('')
-                          setSenhaConfirmada(false)
-                          setNovoTitulo('')
-                          setNovaImagem('')
-                        }}
-
-                      >
-                        Cancelar
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="campos-edicao">
-                      <input
-                        type="text"
-                        placeholder="Novo título da premiação"
-                        value={novoTitulo}
-                        onChange={(e) => setNovoTitulo(e.target.value)}
-                        className="input-editar"
-                      />
-                      <input
-                        type="text"
-                        placeholder="URL da nova imagem"
-                        value={novaImagem}
-                        onChange={(e) => setNovaImagem(e.target.value)}
-                        className="input-editar"
-                      />
-                      <div>
-                        <button
-                          className="botao-salvar"
-                          onClick={async () => {
-                            try {
-                              const payload = {
-                                titulo: novoTitulo,
-                                imagem: novaImagem,
-                              }
-
-                              // Envie para o backend
-                              axios.post('https://back-end-ranking.onrender.com/premiacao', {
-                                titulo: novoTitulo,
-                                imagem: novaImagem
-                              })
-
-                                .then(res => {
-                                  if (res.data.status === 'ok') {
-                                    alert('Premiação salva com sucesso!')
-                                  } else {
-                                    alert('Erro: ' + res.data.message)
-                                  }
-                                })
-                                .catch(err => {
-                                  alert('Erro ao conectar com o servidor: ' + err.message)
-                                })
-
-
-                              // Atualize no frontend
-                              if (novoTitulo) {
-                                setTituloPremiacao(novoTitulo)
-                                localStorage.setItem('tituloPremiacao', novoTitulo)
-                              }
-                              if (novaImagem) {
-                                setImagemPremiacao(novaImagem)
-                                localStorage.setItem('imagemPremiacao', novaImagem)
-                              }
-
-                              setModoEdicao(false)
-                              setSenhaEdicao('')
-                              setSenhaConfirmada(false)
-                              setNovoTitulo('')
-                              setNovaImagem('')
-                            } catch (error) {
-                              console.error('Erro ao salvar premiação:', error)
-                              alert('Erro ao salvar premiação no servidor.')
-                            }
-                          }}
-
-                        >
-                          Salvar alterações
-                        </button>
-                        <button
-                          className="botao-cancelar"
-                          onClick={() => {
-                            setModoEdicao(false)
-                            setSenhaEdicao('')
-                            setSenhaConfirmada(false)
-                            setNovoTitulo('')
-                            setNovaImagem('')
-                          }}
-                        >
-                          Cancelar
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-              )}
-            </div>
-          </div>
-
-
-        </div>
-
-      )}
 
       <div>
         <h1 style={{ fontFamily: 'monospace' }} className='criadores'>
