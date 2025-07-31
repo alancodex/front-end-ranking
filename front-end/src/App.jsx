@@ -182,13 +182,7 @@ function App() {
 
   return (
     <div className="container">
-      <h2 className='sim'>Premiação 🏆</h2>
-      <div className='container2'>
-          <div className="quadro-container">
-      <h2 className="quadro-titulo">Dia de folga</h2>
-      <img src={livre} alt="Exemplo" className="quadro-imagem" />
-    </div>
-      </div>
+
 
       <div className='container2'>
         <div>
@@ -280,9 +274,10 @@ function App() {
           </div>
         </div>
       )}
-
       <div className="linha-podios">
+        {/* Pódio Geral */}
         <div className="podio">
+          <p className="premiacao-texto">🎁 1º lugar geral: 1 dia de Folga</p>
           <h3>🏆 Pódio Geral</h3>
           {ranking.slice(0, 3).map((jogador, index) => (
             <div key={jogador.id} className="podio-item">
@@ -291,7 +286,15 @@ function App() {
           ))}
         </div>
 
+
+
         {["Whatsapp Nivel 1", "Whatsapp Nivel 2", "Telefônico"].map(tipo => {
+          const premiacoes = {
+            "Whatsapp Nivel 1": "🎁 1º lugar: Lata de pitú",
+            "Whatsapp Nivel 2": "🎁 1º lugar: Coxinha",
+            "Telefônico": "🎁 1º lugar: 1 dia de folga"
+          }
+
           const titulo = {
             "Whatsapp Nivel 1": "📱 WhatsApp Nível 1",
             "Whatsapp Nivel 2": "⚙️ WhatsApp Nível 2",
@@ -303,6 +306,7 @@ function App() {
             .slice(0, 3)
           return (
             <div key={tipo} className="podio">
+              <p className="premiacao-texto">{premiacoes[tipo]}</p>
               <h3>{titulo}</h3>
               {top3.map((jogador, index) => (
                 <div key={jogador.id} className="podio-item">

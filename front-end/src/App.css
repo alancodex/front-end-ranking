@@ -656,3 +656,37 @@ body {
   justify-content: flex-start; /* alinha à esquerda */
   padding-left: 60px;
 }
+
+.premiacao-texto {
+  position: relative;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #333;
+  background: white;
+  border-radius: 12px;
+  z-index: 1;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.premiacao-texto::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  z-index: -1;
+  background: linear-gradient(45deg, #ff0055, #ffcc00, #00ffcc, #ac75ff, #df2d68);
+  background-size: 300% 300%;
+  border-radius: 14px;
+  animation: bordaAnimada 4s linear infinite;
+}
+
+@keyframes bordaAnimada {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
